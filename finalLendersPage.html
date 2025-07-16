@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lenders Directory | Find & Manage Top Wholesale Lending Partners</title>
+  <meta name="description" content="Discover and manage verified wholesale lenders in one place. Optimize your lending partnerships with our powerful lender directory." />
+  <meta name="author" content="Lenders Directory Team" />
+  <meta name="keywords" content="lenders directory, wholesale lenders, mortgage lenders, lending partnerships, finance directory" />
+  <link rel="canonical" href="https://lenders.dev/" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- React, ReactDOM, and Babel CDNs -->
+  <script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #e9eef7;
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 40;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      padding: 24px 24px 16px 24px;
+      min-height: 215px;
+    }
+
+    @media (min-width: 1024px) {
+      .header {
+        padding-left: 90px;
+      }
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .header-content {
+        flex-direction: row;
+        align-items: flex-end;
+      }
+    }
+
+    .header-title {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #1CACC5, #123F56);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    @media (min-width: 640px) {
+      .header-title {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .header-title {
+        font-size: 3rem;
+      }
+    }
+
+    .header-desc {
+      color: #374151;
+      font-size: 0.875rem;
+      margin-top: 8px;
+    }
+
+    @media (min-width: 640px) {
+      .header-desc {
+        font-size: 1rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .header-desc {
+        font-size: 1.125rem;
+      }
+    }
+
+    /* Search Bar */
+    .search-container {
+      margin-top: 24px;
+      position: relative;
+      width: 100%;
+      max-width: 1260px;
+    }
+
+    .search-wrapper {
+      width: 100%;
+      height: 48px;
+      border-radius: 12px;
+      padding: 1px;
+      background: linear-gradient(to right, #815FF2, #D14EC0);
+    }
+
+    @media (min-width: 640px) {
+      .search-wrapper {
+        height: 55px;
+      }
+    }
+
+    .search-input {
+      width: 100%;
+      height: 100%;
+      border-radius: 11px;
+      padding: 0 16px 0 40px;
+      font-size: 0.875rem;
+      border: none;
+      outline: none;
+      background: #fff;
+    }
+
+    @media (min-width: 640px) {
+      .search-input {
+        font-size: 1rem;
+      }
+    }
+
+    .search-input::placeholder {
+      color: #B3B3B3;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: block;
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 50;
+      padding: 12px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    @media (min-width: 640px) {
+      .mobile-menu-btn {
+        top: 16px;
+        right: 16px;
+        padding: 16px;
+      }
+    }
+
+    /* Ensure mobile menu button is visible at 1024x600 (Nest Hub) */
+    @media (min-width: 1024px) and (max-height: 600px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
+
+    .mobile-menu-btn:hover {
+      background: #f3f4f6;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      height: 100vh;
+      width: 260px;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      z-index: 30;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      padding-top: 180px;
+      overflow-y: auto;
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(-100%);
+    }
+
+    @media (min-width: 640px) {
+      .sidebar {
+        width: 280px;
+        padding-top: 215px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        width: 300px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .sidebar {
+        transform: translateX(0);
+        top: 0;
+      }
+    }
+
+    /* Ensure sidebar is hidden by default at 1024x600 (Nest Hub) */
+    @media (min-width: 1024px) and (max-height: 600px) {
+      .sidebar {
+        transform: translateX(-100%);
+        top: 20px;
+      }
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 20;
+      display: none;
+    }
+
+    .sidebar-overlay.show {
+      display: block;
+    }
+
+    /* Ensure sidebar overlay is functional at 1024x600 (Nest Hub) */
+    @media (min-width: 1024px) and (max-height: 600px) {
+      .sidebar-overlay {
+        display: none;
+      }
+      .sidebar-overlay.show {
+        display: block;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .sidebar-overlay {
+        display: none !important;
+      }
+    }
+
+    /* Main Content */
+    .main-content {
+      padding-top: 215px;
+      padding-bottom: 32px;
+      padding-left: 16px;
+      padding-right: 16px;
+      max-width: 1024px;
+      margin: 0 auto;
+      background: #e9eef7;
+    }
+
+    @media (min-width: 640px) {
+      .main-content {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .main-content {
+        margin-left: 280px;
+        padding-left: 22px;
+        padding-right: 22px;
+      }
+    }
+
+    /* Ensure main content is not shifted at 1024x600 (Nest Hub) */
+    @media (min-width: 1024px) and (max-height: 600px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    /* Card Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px 33px;
+      justify-items: center;
+      margin-top: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+        margin-top: 24px;
+      }
+    }
+
+    /* Two columns for iPad Pro (834px and 1024px widths) */
+    @media (min-width: 834px) and (max-width: 1024px) {
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Lender Card */
+    .lender-card {
+      background: #fff;
+      border-radius: 25px;
+      border: 1px solid #F2F2F2;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      margin-left: 20px;
+      padding: 16px;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      min-height: 280px;
+    }
+
+    @media (min-width: 640px) {
+      .lender-card {
+        padding: 24px;
+      }
+    }
+
+    .lender-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 640px) {
+      .lender-header {
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+    }
+
+    .lender-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #DDEDFF;
+      border: 2px solid #EDEDED;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: #0F172A;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 640px) {
+      .lender-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 0.875rem;
+      }
+    }
+
+    .lender-info {
+      flex: 1;
+      min-width: 0;
+      padding-top: 2px;
+    }
+
+    .lender-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #0F172A;
+      margin: 0;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 640px) {
+      .lender-name {
+        font-size: 1rem;
+      }
+    }
+
+    .lender-contact {
+      color: #475569;
+      font-size: 0.75rem;
+      margin-top: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 640px) {
+      .lender-contact {
+        font-size: 0.875rem;
+        margin-top: 8px;
+      }
+    }
+
+    /* Rating and Category */
+    .rating-category {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 640px) {
+      .rating-category {
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+    }
+
+    .rating-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .star {
+      width: 12px;
+      height: 12px;
+    }
+
+    @media (min-width: 640px) {
+      .star {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .rating-text {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    @media (min-width: 640px) {
+      .rating-text {
+        font-size: 0.875rem;
+      }
+    }
+
+    .category-badge {
+      min-width: 60px;
+      height: 20px;
+      padding: 0 8px;
+      background: #E8F2FF;
+      color: #0066FF;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    @media (min-width: 640px) {
+      .category-badge {
+        min-width: 80px;
+        height: 24px;
+        padding: 0 12px;
+        font-size: 0.875rem;
+      }
+    }
+
+    /* Contact Info */
+    .contact-info {
+      margin-bottom: 16px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: #0F172A;
+      margin-bottom: 8px;
+    }
+
+    @media (min-width: 640px) {
+      .contact-item {
+        gap: 12px;
+        font-size: 0.875rem;
+      }
+    }
+
+    .contact-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 640px) {
+      .contact-icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .contact-text {
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .contact-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Niches */
+    .niches-section {
+      margin-top: auto;
+      padding-top: 8px;
+    }
+
+    .niches-title {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #0F172A;
+      margin-bottom: 4px;
+    }
+
+    @media (min-width: 640px) {
+      .niches-title {
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+    }
+
+    .niches-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #1D4ED8;
+      line-height: 1.2;
+    }
+
+    @media (min-width: 640px) {
+      .niches-list {
+        gap: 6px;
+        font-size: 0.875rem;
+      }
+    }
+
+    .niche-item {
+      cursor: pointer;
+    }
+
+    .niche-item:hover {
+      text-decoration: underline;
+    }
+
+    /* Filter Tags */
+    .filter-section {
+      margin-bottom: 24px;
+    }
+
+    .filter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .filter-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-icon {
+      width: 20px;
+      height: 20px;
+      color: #4B5563;
+    }
+
+    .filter-text {
+      font-size: 0.75rem;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    @media (min-width: 640px) {
+      .filter-text {
+        font-size: 0.875rem;
+      }
+    }
+
+    .clear-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: auto;
+      height: 29px;
+      padding: 6px 20px;
+      border-radius: 40px;
+      font-size: 10px;
+      font-weight: 500;
+      color: #374151;
+      background: #f3f4f6;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    @media (min-width: 640px) {
+      .clear-btn {
+        font-size: 12px;
+      }
+    }
+
+    .clear-btn:hover {
+      background: #e5e7eb;
+      color: #1f2937;
+    }
+
+    .clear-icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filter-tag {
+      height: 32px;
+      padding: 8px 14px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media (min-width: 640px) {
+      .filter-tag {
+        height: 39px;
+        padding: 10px 20px;
+        font-size: 0.875rem;
+      }
+    }
+
+    .filter-tag.selected {
+      background: linear-gradient(to right, #1CACC5, #123F56);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(28,172,197,0.08);
+    }
+
+    .filter-tag:not(.selected) {
+      border: 1px solid #556275;
+      color: #374151;
+      background: #fff;
+    }
+
+    .filter-tag:not(.selected):hover {
+      border-color: #1CACC5;
+      color: #1CACC5;
+    }
+
+    /* Category List */
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .category-icon {
+      width: 20px;
+      height: 20px;
+      color: #556275;
+    }
+
+    .category-text {
+      font-size: 0.75rem;
+      color: #556275;
+      font-weight: 500;
+    }
+
+    @media (min-width: 640px) {
+      .category-text {
+        font-size: 0.875rem;
+      }
+    }
+
+    .category-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .category-btn {
+      width: 100%;
+      height: 36px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media (min-width: 640px) {
+      .category-btn {
+        height: 43px;
+        padding: 10px 20px;
+        font-size: 0.875rem;
+      }
+    }
+
+    .category-btn.active {
+      background: linear-gradient(to right, #1CACC5, #123F56);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .category-btn:not(.active) {
+      color: #556275;
+      background: transparent;
+    }
+
+    .category-btn:not(.active):hover {
+      background: #f9fafb;
+    }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 37%, #f0f0f0 63%);
+      background-size: 200px 100%;
+      border-radius: 4px;
+      animation: skeleton-loading 1.2s infinite linear;
+    }
+
+    @keyframes skeleton-loading {
+      0% { background-position: -200px 0; }
+      100% { background-position: calc(200px + 100%) 0; }
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 64px 16px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      border: 1px solid #f3f4f6;
+      max-width: 400px;
+      margin: 32px auto;
+    }
+
+    .empty-icon {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .empty-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    @media (min-width: 640px) {
+      .empty-title {
+        font-size: 1.25rem;
+      }
+    }
+
+    .empty-text {
+      color: #6b7280;
+      font-size: 0.875rem;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .empty-text {
+        font-size: 0.9375rem;
+      }
+    }
+
+    .reset-btn {
+      padding: 8px 24px;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #fff;
+      background: #1CACC5;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(28,172,197,0.08);
+      transition: background-color 0.2s;
+    }
+
+    .reset-btn:hover {
+      background: #199CB2;
+    }
+
+    /* Error state */
+    .error-state {
+      text-align: center;
+      padding: 48px 0;
+    }
+
+    .error-text {
+      color: #ef4444;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    @media (min-width: 640px) {
+      .error-text {
+        font-size: 1.125rem;
+      }
+    }
+
+    .retry-btn {
+      color: #1CACC5;
+      font-size: 0.875rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    @media (min-width: 640px) {
+      .retry-btn {
+        font-size: 1rem;
+      }
+    }
+
+    .retry-btn:hover {
+      color: #199CB2;
+    }
+  fatigue</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const API_BASE_URL = "https://sheets-yandy.vercel.app";
+    const API_KEY = '9e1c0f64a885e7f286d669a54552eb700f6b63ec997b548098e798c2fdff66a1';
+    const { useState, useEffect, useMemo, useCallback } = React;
+
+    function useFilters(lenders) {
+      const [selectedTags, setSelectedTags] = useState([]);
+      const [selectedCategory, setSelectedCategory] = useState("");
+      const [searchQuery, setSearchQuery] = useState("");
+      
+      const filteredLenders = useMemo(() => {
+        return lenders.filter((lender) => {
+          const matchesSearch =
+            !searchQuery ||
+            lender.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            lender.contact.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            lender.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            lender.niches.some((niche) =>
+              niche.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          const matchesTag =
+            selectedTags.length === 0 ||
+            selectedTags.some((tag) => lender.niches.includes(tag));
+          const matchesCategory =
+            !selectedCategory || lender.category === selectedCategory;
+          return matchesSearch && matchesTag && matchesCategory;
+        });
+      }, [lenders, searchQuery, selectedTags, selectedCategory]);
+
+      const toggleTag = (tag) => {
+        setSelectedTags((prev) =>
+          prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+        );
+      };
+
+      const clearAllTags = () => {
+        setSelectedTags([]);
+        setSelectedCategory("");
+      };
+
+      const selectCategory = (category) => {
+        setSelectedCategory(category);
+      };
+
+      const setSearch = (query) => {
+        setSearchQuery(query);
+      };
+
+      return {
+        selectedTags,
+        selectedCategory,
+        searchQuery,
+        filteredLenders,
+        toggleTag,
+        clearAllTags,
+        selectCategory,
+        setSearch,
+      };
+    }
+
+    function Header({ searchQuery, onSearchChange }) {
+      return (
+        <header className="header">
+          <div className="header-content">
+            <div>
+              <h1 className="header-title">Lenders Directory</h1>
+              <p className="header-desc">Manage your wholesale lending partnerships</p>
+            </div>
+          </div>
+          <div className="search-container">
+            <div className="search-wrapper">
+              <input
+                className="search-input"
+                type="text"
+                placeholder="Search lenders, contacts, or specialties"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+              />
+            </div>
+            <svg className="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </header>
+      );
+    }
+
+    function FilterTags({ tags, onTagToggle, onClearAll }) {
+      const hasSelectedTags = tags.some((tag) => tag.isSelected);
+      
+      return (
+        <div className="filter-section">
+          <div className="filter-header">
+            <div className="filter-label">
+              <svg className="filter-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.707A1 1 0 013 7V4z" />
+              </svg>
+              <span className="filter-text">Filters:</span>
+            </div>
+            {hasSelectedTags && (
+              <button onClick={onClearAll} className="clear-btn">
+                <svg className="clear-icon" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <line x1={18} y1={6} x2={6} y2={18} />
+                  <line x1={6} y1={6} x2={18} y2={18} />
+                </svg>
+                Clear All
+              </button>
+            )}
+          </div>
+          <div className="filter-tags">
+            {tags.map((tag) => (
+              <button 
+                key={tag.id} 
+                onClick={() => onTagToggle(tag.id)} 
+                className={`filter-tag ${tag.isSelected ? 'selected' : ''}`}
+              >
+                {tag.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function CategoryList({ categories, onCategorySelect }) {
+      return (
+        <div>
+          <div className="category-header">
+            <svg className="category-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+            <span className="category-text">Categories</span>
+          </div>
+          <div className="category-list">
+            {categories.map((category) => (
+              <button 
+                key={category.id} 
+                onClick={() => onCategorySelect(category.id)} 
+                className={`category-btn ${category.isActive ? 'active' : ''}`}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function Sidebar({ isOpen, onClose, selectedTags, selectedCategory, onTagToggle, onClearAll, onCategorySelect }) {
+      const filterTags = [
+        { id: 'Commercial', label: 'Commercial', isSelected: selectedTags.includes('Commercial') },
+        { id: 'CONV', label: 'CONV', isSelected: selectedTags.includes('CONV') },
+        { id: 'Jumbo', label: 'Jumbo', isSelected: selectedTags.includes('Jumbo') },
+        { id: 'SBA', label: 'SBA', isSelected: selectedTags.includes('SBA') },
+        { id: 'DSCR', label: 'DSCR', isSelected: selectedTags.includes('DSCR') },
+      ];
+
+      const categories = [
+        { id: 'Wholesale', label: 'Lenders - Wholesale', isActive: selectedCategory === 'Wholesale' },
+        { id: 'Non-Delegated', label: 'Lenders - Non-Delegated', isActive: selectedCategory === 'Non-Delegated' },
+        { id: 'Hard Money', label: 'Hard Money', isActive: selectedCategory === 'Hard Money' },
+        { id: 'Commercial', label: 'Commercial', isActive: selectedCategory === 'Commercial' },
+        { id: 'Delegated', label: 'Delegated', isActive: selectedCategory === 'Delegated' },
+        { id: 'processing', label: 'Processing Companies', isActive: selectedCategory === 'processing' },
+      ];
+
+      return (
+        <>
+          <div className={`sidebar-overlay ${isOpen ? 'show' : ''}`} onClick={onClose} />
+          <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
+            <div style={{ padding: '12px 16px' }}>
+              <FilterTags tags={filterTags} onTagToggle={onTagToggle} onClearAll={onClearAll} />
+              <CategoryList categories={categories} onCategorySelect={onCategorySelect} />
+            </div>
+          </aside>
+        </>
+      );
+    }
+
+    function LenderCard({ lender }) {
+      function renderStars(rating) {
+        return Array.from({ length: 5 }, (_, index) => (
+          <svg 
+            key={index} 
+            className="star" 
+            fill={index < rating ? '#FFC107' : 'none'} 
+            stroke="#FFC107" 
+            strokeWidth={2} 
+            viewBox="0 0 24 24"
+          >
+            <polygon points="12 17.27 18.18 21 16.54 13.97 22 9.24 14.81 8.63 12 2 9.19 8.63 2 9.24 7.46 13.97 5.82 21 12 17.27" />
+          </svg>
+        ));
+      }
+
+      return (
+        <div className="lender-card">
+          <div className="lender-header">
+            <div className="lender-avatar">
+              {lender.name.split(' ').map((word) => word[0]).join('').slice(0, 3).toUpperCase()}
+            </div>
+            <div className="lender-info">
+              <h3 className="lender-name">{lender.name}</h3>
+              <div className="lender-contact">{lender.contact}</div>
+            </div>
+          </div>
+
+          <div className="rating-category">
+            <div className="rating-section">
+              <div className="stars">
+                {renderStars(lender.rating)}
+              </div>
+              <span className="rating-text">
+                {(isNaN(lender.rating) ? '0' : lender.rating.toFixed(1))}/5
+              </span>
+            </div>
+            <span className="category-badge">{lender.category}</span>
+          </div>
+
+          <div className="contact-info">
+            <div className="contact-item">
+              <svg className="contact-icon" fill="none" stroke="#E02424" strokeWidth={2} viewBox="0 0 24 24">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3.08 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.7 2.34a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c.74.34 1.53.57 2.34.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <span className="contact-text">{lender.phone}</span>
+            </div>
+            <div className="contact-item">
+              <svg className="contact-icon" fill="none" stroke="#F59E0B" strokeWidth={2} viewBox="0 0 24 24">
+                <rect x={2} y={4} width={20} height={16} rx={2} />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              <a href={`mailto:${lender.email}`} className="contact-link contact-text">{lender.email}</a>
+            </div>
+          </div>
+
+          {lender.niches && lender.niches.length > 0 && (
+            <div className="niches-section">
+              <h4 className="niches-title">Niches</h4>
+              <div className="niches-list">
+                {lender.niches.map((niche, idx) => (
+                  <span key={idx} className="niche-item">
+                    {niche}{idx < lender.niches.length - 1 ? ',' : ''}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function LenderCardSkeleton() {
+      return (
+        <div className="lender-card">
+          <div className="lender-header">
+            <div className="lender-avatar skeleton" style={{ width: '48px', height: '48px' }}></div>
+            <div className="lender-info" style={{ flex: 1 }}>
+              <div className="skeleton" style={{ width: '60%', height: '14px', marginBottom: '6px' }}></div>
+              <div className="skeleton" style={{ width: '40%', height: '12px' }}></div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '12px 0' }}>
+            <div className="skeleton" style={{ width: '30%', height: '14px' }}></div>
+            <div className="skeleton" style={{ width: '80px', height: '20px', borderRadius: '10px' }}></div>
+          </div>
+          <div style={{ marginBottom: '12px' }}>
+            <div className="skeleton" style={{ width: '90%', height: '12px', marginBottom: '6px' }}></div>
+            <div className="skeleton" style={{ width: '70%', height: '12px' }}></div>
+          </div>
+          <div>
+            <div className="skeleton" style={{ width: '25%', height: '10px', marginBottom: '6px' }}></div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <div className="skeleton" style={{ width: '50px', height: '16px' }}></div>
+              <div className="skeleton" style={{ width: '70px', height: '16px' }}></div>
+              <div className="skeleton" style={{ width: '60px', height: '16px' }}></div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function Index() {
+      const [sidebarOpen, setSidebarOpen] = useState(false);
+      const [lenders, setLenders] = useState([]);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+
+      const {
+        selectedTags,
+        selectedCategory,
+        searchQuery,
+        filteredLenders,
+        toggleTag,
+        clearAllTags,
+        selectCategory,
+        setSearch,
+      } = useFilters(lenders);
+
+      const fetchLenders = useCallback(async (query = "") => {
+        try {
+          setLoading(true);
+          const url = query
+            ? `${API_BASE_URL}/api/lenders/search/?q=${encodeURIComponent(query)}`
+            : `${API_BASE_URL}/api/lenders/`;
+          const response = await fetch(url, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Api-Key ${API_KEY}`,
+            },
+          });
+          if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+              throw new Error("Authentication failed. Please check your session or contact support.");
+            }
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.json();
+          const mappedLenders = data.map((apiLender) => ({
+            id: String(apiLender.id),
+            name: apiLender.investor,
+            contact: apiLender.account_executive,
+            rating: parseFloat(apiLender.rating),
+            phone: apiLender.ae_phone_number,
+            email: apiLender.ae_email,
+            category: apiLender.channel,
+            niches: apiLender.niches ? apiLender.niches.split(",").map((n) => n.trim()) : [],
+          }));
+          setLenders(mappedLenders);
+          setError(null);
+        } catch (err) {
+          setError(err.message || "Failed to load lenders. Please try again later.");
+        } finally {
+          setLoading(false);
+        }
+      }, []);
+
+      useEffect(() => {
+        const handler = setTimeout(() => {
+          fetchLenders(searchQuery);
+        }, 300);
+        return () => clearTimeout(handler);
+      }, [searchQuery, fetchLenders]);
+
+      return (
+        <div style={{ position: 'relative', minHeight: '100vh', background: '#e9eef7' }}>
+          <Header searchQuery={searchQuery} onSearchChange={setSearch} />
+          
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="mobile-menu-btn"
+            aria-label={sidebarOpen ? 'Close sidebar menu' : 'Open sidebar menu'}
+          >
+            {sidebarOpen ? (
+              <svg width={20} height={20} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <line x1={18} y1={6} x2={6} y2={18} />
+                <line x1={6} y1={6} x2={18} y2={18} />
+              </svg>
+            ) : (
+              <svg width={20} height={20} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <line x1={3} y1={12} x2={21} y2={12} />
+                <line x1={3} y1={6} x2={21} y2={6} />
+                <line x1={3} y1={18} x2={21} y2={18} />
+              </svg>
+            )}
+          </button>
+
+          <Sidebar
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            selectedTags={selectedTags}
+            selectedCategory={selectedCategory}
+            onTagToggle={toggleTag}
+            onClearAll={clearAllTags}
+            onCategorySelect={selectCategory}
+          />
+
+          <main className="main-content">
+            {loading && (
+              <div className="card-grid">
+                {Array.from({ length: 6 }).map((_, idx) => (
+                  <LenderCardSkeleton key={idx} />
+                ))}
+              </div>
+            )}
+
+            {error && !loading && (
+              <div className="error-state">
+                <div className="error-text">{error}</div>
+                <button onClick={() => fetchLenders(searchQuery)} className="retry-btn">
+                  Retry
+                </button>
+              </div>
+            )}
+
+            {!loading && !error && searchQuery && (
+              <div style={{ marginBottom: '16px', color: '#4b5563', fontSize: '0.875rem' }}>
+                Found {filteredLenders.length} lender{filteredLenders.length !== 1 ? 's' : ''} for "{searchQuery}"
+              </div>
+            )}
+
+            {!loading && !error && (
+              <div className="card-grid">
+                {filteredLenders.map((lender) => (
+                  <LenderCard key={lender.id} lender={lender} />
+                ))}
+              </div>
+            )}
+
+            {!loading && !error && filteredLenders.length === 0 && (
+              <div className="empty-state">
+                <div className="empty-icon">
+<div className="empty-icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="56"
+    height="56"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="#60a5fa"
+    role="img"
+    aria-label="No results icon"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+      d="M9.75 9.75h0.5v0.5h-0.5v-0.5zM15 9.75h0.5v0.5h-0.5v-0.5zM21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+    />
+  </svg>
+</div>
+                </div>
+                <h2 className="empty-title">No lenders found</h2>
+                <p className="empty-text">
+                  {searchQuery
+                    ? `No matches for "${searchQuery}". Try adjusting your search or filters.`
+                    : 'Try adjusting your filters to see more results.'}
+                </p>
+                <button
+                  onClick={() => {
+                    clearAllTags();
+                    setSearch("");
+                  }}
+                  className="reset-btn"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
+          </main>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Index />);
+  </script>
+</body>
+</html>
